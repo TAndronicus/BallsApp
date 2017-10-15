@@ -198,17 +198,12 @@ public class Board {
 		return null;
 
 	}
-	
+
 	private BoardCell searchForPlace(String sequence, int place, Player player) {
-		
+
 		BoardCell boardCell;
 		List<Player> listOfPlayers = getPlayerList(sequence, player);
-		boardCell = searchHorizontally(listOfPlayers, place, player);
-		if(boardCell != null)  {
-			System.out.println("x = " + boardCell.getX() + ", y = " + boardCell.getY());
-			return boardCell;
-		}
-		boardCell = searchVertically(listOfPlayers, place, player);
+		boardCell = searchNegativeSlant(listOfPlayers, place, player);
 		if(boardCell != null) {
 			System.out.println("x = " + boardCell.getX() + ", y = " + boardCell.getY());
 			return boardCell;
@@ -218,13 +213,19 @@ public class Board {
 			System.out.println("x = " + boardCell.getX() + ", y = " + boardCell.getY()); 
 			return boardCell;
 		}
-		boardCell = searchNegativeSlant(listOfPlayers, place, player);
-		if(boardCell != null)
+		boardCell = searchHorizontally(listOfPlayers, place, player);
+		if(boardCell != null)  {
+			System.out.println("x = " + boardCell.getX() + ", y = " + boardCell.getY());
+			return boardCell;
+		}
+		boardCell = searchVertically(listOfPlayers, place, player);
+		if(boardCell != null) 
 			System.out.println("x = " + boardCell.getX() + ", y = " + boardCell.getY());
 		return boardCell;
-		
+
+
 	}
-	
+
 	private BoardCell searchHorizontally(List<Player> listOfPlayers, int place, Player player) {
 
 		for(int i = 0; i < SIZE - listOfPlayers.size() + 1; i++) {
@@ -237,9 +238,9 @@ public class Board {
 					return new BoardCell(i + place, j, player);
 			}
 		}
-		
+
 		return null;
-		
+
 	}
 
 	private BoardCell searchVertically(List<Player> listOfPlayers, int place, Player player) {
@@ -254,9 +255,9 @@ public class Board {
 					return new BoardCell(i, j + place, player);
 			}
 		}
-		
+
 		return null;
-		
+
 	}
 
 	private BoardCell searchPositiveSlant(List<Player> listOfPlayers, int place, Player player) {
@@ -271,13 +272,13 @@ public class Board {
 					return new BoardCell(i + place, j + place, player);
 			}
 		}
-		
+
 		return null;
-		
+
 	}
 
 	private BoardCell searchNegativeSlant(List<Player> listOfPlayers, int place, Player player) {
-		
+
 		for(int i = listOfPlayers.size() - 1; i < SIZE; i++) {
 			for(int j = 0; j < SIZE - listOfPlayers.size() + 1; j++) {
 				boolean matches = true;
@@ -288,13 +289,13 @@ public class Board {
 					return new BoardCell(i - place, j + place, player);
 			}
 		}
-		
+
 		return null;
-		
+
 	}
 
 	private List<Player> getPlayerList(String sequence, Player player) {
-		
+
 		List<Player> listOfPlayers = new ArrayList<>();
 		for(int i = 0; i < sequence.length(); i++) {
 			if(PLAYERCHARACTER.equals(sequence.charAt(i)))
@@ -305,7 +306,7 @@ public class Board {
 				listOfPlayers.add(null);
 		}
 		return listOfPlayers;
-		
+
 	}
-	
+
 }
