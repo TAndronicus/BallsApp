@@ -11,6 +11,8 @@ public class Board {
 	private static final int SIZE = 10;
 	private Player[][] board = new Player[SIZE][SIZE];
 	private static final int[] spr = {2, 1, 3, 0, 4};
+	private static final Character PLAYERCHARACTER = Character.valueOf('+');
+	private static final Character OPPONENTCHARACTER = Character.valueOf('-');
 
 	public void placeMove(BoardCell move) {
 		board[move.getX()][move.getY()] = move.getPlayer();
@@ -38,75 +40,150 @@ public class Board {
 
 	public BoardCell getEmptyCell(Player player) {
 
-		BoardCell boardCell = null;
-
-		//Sprawdzenie 4 wlasnych	
-		for(Direction direction : Direction.values()) {
-			boardCell = checkTacticWithoutCondition(player, true, direction, 3);
-			if(boardCell != null)
-				break;
-		}
+		BoardCell boardCell;
+		//1
+		boardCell = searchForPlace("++++0", 4, player);
 		if(boardCell != null)
 			return boardCell;
-		
-		//Sprawdzenie niebezpieczenstw
-		//3 lub wiecej niezbalokowanych
-		for(Direction direction : Direction.values()) {
-			boardCell = checkTacticWithoutCondition(Player.getOtherPlayer(player), true, direction, 2);
-			if(boardCell != null)
-				break;
-		}
+		boardCell = searchForPlace("0++++", 0, player);
 		if(boardCell != null)
 			return boardCell;
-
-		//Sprawdzenie zlozonej taktyki przeciwnika
-		int sum;
-		int[][] binBoard = convertBoardToNumber(Player.getOtherPlayer(player), true);
-		for(int i = 2; i < 8; i++) {
-			for(int j = 2; j < 8; j++){
-				if(board[i][j] == null) {
-					int rzedy = 0;
-					sum = 0;
-					for(int k = -2; k < 3; k++)
-						sum += binBoard[i][j + k];
-					if(sum == 2)
-						rzedy++;
-					sum = 0;
-					for(int k = -2; k < 3; k++)
-						sum += binBoard[i + k][j];
-					if(sum == 2)
-						rzedy++;
-					sum = 0;
-					for(int k = -2; k < 3; k++)
-						sum += binBoard[i + k][j + k];
-					if(sum == 2)
-						rzedy++;
-					sum = 0;
-					for(int k = -2; k < 3; k++)
-						sum += binBoard[i - k][j + k];
-					if(sum == 2)
-						rzedy++;
-					if(rzedy > 1)
-						return new BoardCell(i, j, null);
-				}
-			}
-		}
-
-		//Sprawdzenie 3 wlasnych
-		for(Direction direction : Direction.values()) {
-			boardCell = checkTacticWithoutCondition(player, false, direction, 2);
-			if(boardCell != null)
-				break;
-		}
+		//2
+		boardCell = searchForPlace("+++0+", 3, player);
 		if(boardCell != null)
 			return boardCell;
-		
-		//Sprawdzenie 2 wlasnych
-		for(Direction direction : Direction.values()) {
-			boardCell = checkTacticWithoutCondition(player, true, direction, 1);
-			if(boardCell != null)
-				break;
-		}
+		boardCell = searchForPlace("+0+++", 1, player);
+		if(boardCell != null)
+			return boardCell;
+		//3
+		boardCell = searchForPlace("++0++", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		//4
+		boardCell = searchForPlace("----0", 4, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("0----", 0, player);
+		if(boardCell != null)
+			return boardCell;
+		//5
+		boardCell = searchForPlace("---0-", 3, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("-0---", 1, player);
+		if(boardCell != null)
+			return boardCell;
+		//6
+		boardCell = searchForPlace("--0--", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		//7 TODO: M
+		boardCell = searchForPlace("0+++0", 0, player);
+		if(boardCell != null)
+			return boardCell;
+		//8
+		boardCell = searchForPlace("0++0+0", 3, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("0+0++0", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		//9
+		boardCell = searchForPlace("0++0+", 3, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("+0++0", 1, player);
+		if(boardCell != null)
+			return boardCell;
+		//10
+		boardCell = searchForPlace("++0+0", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("0+0++", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		//11 TODO: M
+		boardCell = searchForPlace("++00+", 3, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("+00++", 1, player);
+		if(boardCell != null)
+			return boardCell;
+		//12 TODO: M
+		boardCell = searchForPlace("+0+0+", 1, player);
+		if(boardCell != null)
+			return boardCell;
+		//13 TODO: M
+		boardCell = searchForPlace("0---0", 0, player);
+		if(boardCell != null)
+			return boardCell;
+		//14
+		boardCell = searchForPlace("0--0-", 3, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("-0--0", 1, player);
+		if(boardCell != null)
+			return boardCell;
+		//15
+		boardCell = searchForPlace("--0-0", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("0-0--", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		//TODO: M
+		//16
+		boardCell = searchForPlace("++000", 4, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("000++", 0, player);
+		if(boardCell != null)
+			return boardCell;
+		//17
+		boardCell = searchForPlace("0++00", 4, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("00++0", 0, player);
+		if(boardCell != null)
+			return boardCell;
+		//18
+		boardCell = searchForPlace("+0+00", 4, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("00+0+", 0, player);
+		if(boardCell != null)
+			return boardCell;
+		//19
+		boardCell = searchForPlace("0+0+0", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		//20
+		boardCell = searchForPlace("+00+0", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("0+00+", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		//21
+		boardCell = searchForPlace("+000+", 2, player);
+		if(boardCell != null)
+			return boardCell;
+		//22
+		boardCell = searchForPlace("00+00", 3, player);
+		if(boardCell != null)
+			return boardCell;
+		//23
+		boardCell = searchForPlace("0+000", 3, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("000+0", 1, player);
+		if(boardCell != null)
+			return boardCell;
+		//24
+		boardCell = searchForPlace("+0000", 3, player);
+		if(boardCell != null)
+			return boardCell;
+		boardCell = searchForPlace("0000+", 1, player);
 		if(boardCell != null)
 			return boardCell;
 
@@ -122,174 +199,113 @@ public class Board {
 
 	}
 	
-	public BoardCell checkTacticWithoutCondition(Player player, boolean differential, Direction direction, int determinant) {
+	private BoardCell searchForPlace(String sequence, int place, Player player) {
 		
-		int[][] binBoard = convertBoardToNumber(player, differential);
-		int[][] sumBoard = getSumBoard(binBoard, direction);
-		BoardCell boardCell = getCellWithoutCondition(sumBoard, determinant, direction);
-		return boardCell;
-		
-	}
-	
-	//TODO: Unused
-	public BoardCell checkTacticWithDanger3(Player player, boolean differential, Direction direction, int determinant) {
-		
-		int[][] binBoard = convertBoardToNumber(player, differential);
-		int[][] sumBoard = getSumBoard(binBoard, direction);
-		BoardCell boardCell = getCellWithDanger3(sumBoard, determinant, direction, Player.getOtherPlayer(player));
-		return boardCell;
-		
-	}
-	
-	//TODO: Unused
-	public BoardCell getCellWithDanger3(int[][] sumBoard, int determinant, Direction direction, Player player) {
-		
-		List<int[]> list = getIndices(direction);
-		int[] xLimit = list.get(0);
-		int[] yLimit = list.get(1);
-		int[] increment = list.get(2);
-		int[] startingPoints = list.get(3);
-		int summationStartingPoint = startingPoints[0];
-		int i = 0;
-		int j = 0;
-		
-		while(i < xLimit[1] - xLimit[0]) {
-			j = 0;
-			while(j < yLimit[1] - yLimit[0]) {
-				if(sumBoard[i][j] > determinant && (board[i + summationStartingPoint + increment[0]][j + increment[1]] != player) 
-						&& (board[i + summationStartingPoint + 2 * increment[0]][j + 2 * increment[1]] != player) && (board[i + summationStartingPoint + 3 * increment[0]][j + 3 * increment[1]] != player)) {
-					if((board[i + summationStartingPoint + 3 * increment[0]][j + 3 * increment[1]] == null) && (board[i + summationStartingPoint + 4 * increment[0]][j + 4 * increment[1]] == null)) {
-						j++;
-						continue;
-					}
-					for(int k = 0; k < 5; k++)
-						if(board[i + summationStartingPoint + spr[k] * increment[0]][j + spr[k] * increment[1]] == null) 
-							return new BoardCell(i + summationStartingPoint + spr[k] * increment[0], j + spr[k] * increment[1], null);
-				}
-				j++;
-			}
-			i++;
+		BoardCell boardCell;
+		List<Player> listOfPlayers = getPlayerList(sequence, player);
+		boardCell = searchHorizontally(listOfPlayers, place, player);
+		if(boardCell != null)  {
+			System.out.println("x = " + boardCell.getX() + ", y = " + boardCell.getY());
+			return boardCell;
 		}
-		
-		return null;
+		boardCell = searchVertically(listOfPlayers, place, player);
+		if(boardCell != null) {
+			System.out.println("x = " + boardCell.getX() + ", y = " + boardCell.getY());
+			return boardCell;
+		}
+		boardCell = searchPositiveSlant(listOfPlayers, place, player);
+		if(boardCell != null) {
+			System.out.println("x = " + boardCell.getX() + ", y = " + boardCell.getY()); 
+			return boardCell;
+		}
+		boardCell = searchNegativeSlant(listOfPlayers, place, player);
+		if(boardCell != null)
+			System.out.println("x = " + boardCell.getX() + ", y = " + boardCell.getY());
+		return boardCell;
 		
 	}
 	
-	public BoardCell getCellWithoutCondition(int[][] sumBoard, int determinant, Direction direction) {
-		
-		List<int[]> list = getIndices(direction);
-		int[] xLimit = list.get(0);
-		int[] yLimit = list.get(1);
-		int[] increment = list.get(2);
-		int[] startingPoints = list.get(3);
-		int summationStartingPoint = startingPoints[0];
-		int i = 0;
-		int j;
-		
-		while(i < xLimit[1] - xLimit[0]) {
-			j = 0;
-			while(j < yLimit[1] - yLimit[0]) {
-				if(sumBoard[i][j] > determinant) {
-					for(int k = 0; k < 5; k++)
-						if(board[i + summationStartingPoint + spr[k] * increment[0]][j + spr[k] * increment[1]] == null)
-							return new BoardCell(i + summationStartingPoint + spr[k] * increment[0], j + spr[k] * increment[1], null);
+	private BoardCell searchHorizontally(List<Player> listOfPlayers, int place, Player player) {
+
+		for(int i = 0; i < SIZE - listOfPlayers.size() + 1; i++) {
+			for(int j = 0; j < SIZE; j++) {
+				boolean matches = true;
+				for(int k = 0; k < listOfPlayers.size(); k++) {
+					matches = matches && (board[i + k][j] == listOfPlayers.get(k));
 				}
-				j++;
+				if(matches)
+					return new BoardCell(i + place, j, player);
 			}
-			i++;
 		}
 		
 		return null;
 		
 	}
 
-	public int[][] convertBoardToNumber(Player player, boolean differential) {
+	private BoardCell searchVertically(List<Player> listOfPlayers, int place, Player player) {
 
-		int[][] bin = new int[SIZE][SIZE];
-		int opponentValue = differential ? -4 : -1;
-
-		for(int i = 0; i < SIZE; i++){
-			for(int j = 0; j < SIZE; j++){
-				if(board[i][j] == null)
-					bin[i][j] = 0;
-				else if(board[i][j] == player)
-					bin[i][j] = 1;
-				else
-					bin[i][j] = opponentValue;
+		for(int i = 0; i < SIZE; i++) {
+			for(int j = 0; j < SIZE - listOfPlayers.size() + 1; j++) {
+				boolean matches = true;
+				for(int k = 0; k < listOfPlayers.size(); k++) {
+					matches = matches && (board[i][j + k] == listOfPlayers.get(k));
+				}
+				if(matches)
+					return new BoardCell(i, j + place, player);
 			}
 		}
-
-		return bin;
-
+		
+		return null;
+		
 	}
 
-	public int[][] getSumBoard(int[][] binBoard, Direction direction) {
+	private BoardCell searchPositiveSlant(List<Player> listOfPlayers, int place, Player player) {
 
-		List<int[]> list = getIndices(direction);
-		int[] xLimit = list.get(0);
-		int[] yLimit = list.get(1);
-		int[] increment = list.get(2);
-		int[] startingPoints = list.get(3);
-		int summationStartingPoint = startingPoints[0];
-		int[][] sumBoard = new int[xLimit[1] - xLimit[0]][yLimit[1] - yLimit[0]];
-		int sum, xInc, yInc;
-		int i = 0;
-		int j;
-		while(i < xLimit[1] - xLimit[0]) {
-			j = 0;
-			while(j < yLimit[1] - yLimit[0]) {
-				sum = 0; 
-				xInc = 0;
-				yInc = 0;
-				for(int k = 0; k < 5; k++) {
-					sum += binBoard[i + summationStartingPoint + xInc][j + yInc];
-					xInc += increment[0];
-					yInc += increment[1];
+		for(int i = 0; i < SIZE - listOfPlayers.size() + 1; i++) {
+			for(int j = 0; j < SIZE - listOfPlayers.size() + 1; j++) {
+				boolean matches = true;
+				for(int k = 0; k < listOfPlayers.size(); k++) {
+					matches = matches && (board[i + k][j + k] == listOfPlayers.get(k));
 				}
-				sumBoard[i][j] = sum;
-				j++;
+				if(matches)
+					return new BoardCell(i + place, j + place, player);
 			}
-			i++;
 		}
+		
+		return null;
+		
+	}
 
-		return sumBoard;
+	private BoardCell searchNegativeSlant(List<Player> listOfPlayers, int place, Player player) {
+		
+		for(int i = listOfPlayers.size() - 1; i < SIZE; i++) {
+			for(int j = 0; j < SIZE - listOfPlayers.size() + 1; j++) {
+				boolean matches = true;
+				for(int k = 0; k < listOfPlayers.size(); k++) {
+					matches = matches && (board[i - k][j + k] == listOfPlayers.get(k));
+				}
+				if(matches) 
+					return new BoardCell(i - place, j + place, player);
+			}
+		}
+		
+		return null;
+		
+	}
 
+	private List<Player> getPlayerList(String sequence, Player player) {
+		
+		List<Player> listOfPlayers = new ArrayList<>();
+		for(int i = 0; i < sequence.length(); i++) {
+			if(PLAYERCHARACTER.equals(sequence.charAt(i)))
+				listOfPlayers.add(player);
+			else if(OPPONENTCHARACTER.equals(sequence.charAt(i)))
+				listOfPlayers.add(Player.getOtherPlayer(player));
+			else
+				listOfPlayers.add(null);
+		}
+		return listOfPlayers;
+		
 	}
 	
-	public List<int[]> getIndices(Direction direction) {
-		
-		int[] xLimit = {0, 10};
-		int[] yLimit = {0, 10};
-		int[] increment = {0, 0};
-		int[] summationStartingPoint = {0};
-		List<int[]> list = new ArrayList<int[]>();
-		
-		if(direction == Direction.HORIZONTALLY) {
-			yLimit[1] = SIZE - 4;
-			increment[1] = 1;			
-		} else if(direction == Direction.VERTICALLY) {
-			xLimit[1] = SIZE - 4;
-			increment[0] = 1;
-		} else if(direction == Direction.DIAGONAL_ASCENDING) {
-			xLimit[1] = SIZE - 4;
-			yLimit[1] = SIZE - 4;
-			increment[0] = 1;
-			increment[1] = 1;
-		} else {
-			xLimit[1] = SIZE - 4;
-			yLimit[0] = 4;
-			increment[0] = -1;
-			increment[1] = 1;
-		}
-		summationStartingPoint[0] = direction == Direction.DIAGONAL_DESCENDING ? 4 : 0;
-		
-		list.add(xLimit);
-		list.add(yLimit);
-		list.add(increment);
-		list.add(summationStartingPoint);
-		
-		return list;
-		
-	}
-
 }

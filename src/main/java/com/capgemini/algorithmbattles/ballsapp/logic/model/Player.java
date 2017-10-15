@@ -23,10 +23,8 @@ public enum Player {
   }
   
   public static Player getOtherPlayer(Player player) {
-	  if(player.equals(PLAYER_1))
-		  return PLAYER_2;
-	  else
-		  return PLAYER_1;
+	  Player otherPlayer = PLAYER_1.equals(player) ? PLAYER_2 : PLAYER_1;
+	  return otherPlayer;
   }
 
 }
