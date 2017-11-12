@@ -1,5 +1,7 @@
 package com.capgemini.algorithmbattles.ballsapp.solution;
 
+import java.io.IOException;
+
 import com.capgemini.algorithmbattles.ballsapp.logic.model.Board;
 import com.capgemini.algorithmbattles.ballsapp.logic.model.BoardCell;
 import com.capgemini.algorithmbattles.ballsapp.logic.model.Player;
@@ -17,16 +19,16 @@ public class GamePlayer {
    * The application should calculate the next move after this method call.
    *
    * @return the next {@link BoardCell move} for current player.
+ * @throws IOException 
    */
-  public BoardCell nextMove() {
+  public BoardCell nextMove() throws IOException {
     BoardCell cell = getCellForNextMove();
     cell.setPlayer(player);
     board.placeMove(cell);
     return cell;
   }
 
-  private BoardCell getCellForNextMove() {
-    // TODO: Please implement it.
+  private BoardCell getCellForNextMove() throws IOException {
     //BoardCell firstEmptyCell = board.getFirstEmptyCell();
 	BoardCell firstEmptyCell = board.getEmptyCell(player);
     firstEmptyCell.setPlayer(player);

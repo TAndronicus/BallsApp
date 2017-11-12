@@ -1,5 +1,7 @@
 package com.capgemini.algorithmbattles.ballsapp.connector;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +25,10 @@ public class RestService {
    * The application is asked to calculate and make the next move.
    *
    * @return {@link MoveTo}
+ * @throws IOException 
    */
   @RequestMapping(value = "/next-move", method = RequestMethod.POST)
-  public MoveTo nextMove() {
+  public MoveTo nextMove() throws IOException {
     BoardCell move = gameManager.nextMove();
     return MoveTo.mapToMoveTO(move);
   }

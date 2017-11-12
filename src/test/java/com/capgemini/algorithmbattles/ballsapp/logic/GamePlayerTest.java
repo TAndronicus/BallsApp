@@ -3,6 +3,9 @@ package com.capgemini.algorithmbattles.ballsapp.logic;
 import com.capgemini.algorithmbattles.ballsapp.logic.model.BoardCell;
 import com.capgemini.algorithmbattles.ballsapp.logic.model.Player;
 import com.capgemini.algorithmbattles.ballsapp.solution.GamePlayer;
+
+import java.io.IOException;
+
 import org.junit.Test;
 
 /**
@@ -12,9 +15,10 @@ public class GamePlayerTest {
 
   /**
    * This test checks if the application is able to have two instances and play against each other.
+ * @throws IOException 
    */
   @Test
-  public void shouldPlayGameWithItself() {
+  public void shouldPlayGameWithItself() throws IOException {
     GamePlayer gamePlayer1 = new GamePlayer(Player.PLAYER_1);
     GamePlayer gamePlayer2 = new GamePlayer(Player.PLAYER_2);
 
