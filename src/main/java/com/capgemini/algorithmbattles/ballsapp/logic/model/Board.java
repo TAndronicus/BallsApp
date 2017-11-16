@@ -40,7 +40,7 @@ public class Board {
 	}
 
 	public boolean isGameFinished() {
-		// TODO: Please implement it.
+		// TODO: To implement.
 		return false;
 	}
 
