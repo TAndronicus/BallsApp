@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.capgemini.algorithmbattles.ballsapp.connector.RestService;
 import com.capgemini.algorithmbattles.ballsapp.logic.model.BoardCell;
 import com.capgemini.algorithmbattles.ballsapp.logic.model.Player;
 import com.capgemini.algorithmbattles.ballsapp.solution.GamePlayer;

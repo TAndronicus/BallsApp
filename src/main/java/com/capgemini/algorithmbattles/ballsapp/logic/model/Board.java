@@ -11,9 +11,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.capgemini.algorithmbattles.ballsapp.logic.BoardDrawer;
+import com.capgemini.algorithmbattles.ballsapp.logic.GameManager;
 import com.capgemini.algorithmbattles.ballsapp.solution.Direction;
 
 public class Board {
@@ -58,8 +61,9 @@ public class Board {
 		}
 		for(String strategy : strategies) {
 			BoardCell boardCell = searchForPlace(strategy, player);
-			if(boardCell != null)
+			if(boardCell != null) {
 				return boardCell;
+			}
 		}
 
 		//Pierwszy pusty
@@ -185,9 +189,9 @@ public class Board {
 			List<Player> listOfPlayers = getPlayerList(entry.getKey(), player);
 			boolean matches = true;
 			if(index[0] + listOfPlayers.size() * xIncrement < 0
-					|| index[0] + listOfPlayers.size() * xIncrement > SIZE
+					|| index[0] + (listOfPlayers.size() + 1) * xIncrement > SIZE
 					|| index[1] + listOfPlayers.size() * yIncrement < 0
-					|| index[1] + listOfPlayers.size() * yIncrement > SIZE)
+					|| index[1] + (listOfPlayers.size() + 1) * yIncrement > SIZE)
 				continue;
 			for(int k = 0; k < listOfPlayers.size(); k++) {
 				matches = matches && listOfPlayers.get(k) == (board[index[0] + (k + 1) * xIncrement][index[1] + (k + 1) * yIncrement]);

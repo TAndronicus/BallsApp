@@ -8,53 +8,57 @@ import com.capgemini.algorithmbattles.ballsapp.logic.model.Player;
 
 public class GamePlayer {
 
-  private Player player;
-  private Board board = new Board();
+	private Player player;
+	private Board board = new Board();
 
-  public GamePlayer(Player player) {
-    this.player = player;
-  }
+	public GamePlayer(Player player) {
+		this.player = player;
+	}
 
-  /**
-   * The application should calculate the next move after this method call.
-   *
-   * @return the next {@link BoardCell move} for current player.
- * @throws IOException 
-   */
-  public BoardCell nextMove() throws IOException {
-    BoardCell cell = getCellForNextMove();
-    cell.setPlayer(player);
-    board.placeMove(cell);
-    return cell;
-  }
+	/**
+	 * The application should calculate the next move after this method call.
+	 *
+	 * @return the next {@link BoardCell move} for current player.
+	 * @throws IOException 
+	 */
+	public BoardCell nextMove() throws IOException {
+		BoardCell cell = getCellForNextMove();
+		cell.setPlayer(player);
+		board.placeMove(cell);
+		return cell;
+	}
 
-  private BoardCell getCellForNextMove() throws IOException {
-    //BoardCell firstEmptyCell = board.getFirstEmptyCell();
-	BoardCell firstEmptyCell = board.getEmptyCell(player);
-    firstEmptyCell.setPlayer(player);
-    return firstEmptyCell;
-  }
+	private BoardCell getCellForNextMove() throws IOException {
+		BoardCell firstEmptyCell;
+		try {
+			firstEmptyCell = board.getEmptyCell(player);
+		} catch (Exception e) {
+			firstEmptyCell = board.getFirstEmptyCell();
+		}
+		firstEmptyCell.setPlayer(player);
+		return firstEmptyCell;
+	}
 
-  /**
-   * The opponent made the move passed in param.
-   *
-   * @param move the {@link BoardCell} made by the opponent.
-   */
-  public void moveMadeByOpponent(BoardCell move) {
-    this.board.placeMove(move);
-  }
+	/**
+	 * The opponent made the move passed in param.
+	 *
+	 * @param move the {@link BoardCell} made by the opponent.
+	 */
+	public void moveMadeByOpponent(BoardCell move) {
+		this.board.placeMove(move);
+	}
 
-  /**
-   * @return true if the game is finished
-   */
-  public boolean isGameFinished() {
-    return this.board.isGameFinished();
-  }
+	/**
+	 * @return true if the game is finished
+	 */
+	public boolean isGameFinished() {
+		return this.board.isGameFinished();
+	}
 
-  /**
-   * Draw the board on the console.
-   */
-  public void printBoard() {
-    this.board.printBoard();
-  }
+	/**
+	 * Draw the board on the console.
+	 */
+	public void printBoard() {
+		this.board.printBoard();
+	}
 }
